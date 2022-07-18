@@ -8,12 +8,13 @@ import { series, waterfall } from 'async';
 import { EventEmitter } from 'events';
 
 import AwsMetadata from './AwsMetadata';
+import AwsFargateMetadata from './AwsFargateMetadata';
 import ConfigClusterResolver from './ConfigClusterResolver';
 import DnsClusterResolver from './DnsClusterResolver';
 import Logger from './Logger';
 import defaultConfig from './defaultConfig';
 
-function noop() {}
+function noop() { }
 
 /*
   Eureka JS client
@@ -72,7 +73,11 @@ export default class Eureka extends EventEmitter {
 
     this.hasFullRegistry = false;
 
-    if (this.amazonDataCenter) {
+    if (this.amazonFargateDataCenter) {
+      this.metadataClient = new AwsFargateMetadata({
+        logger: this.logger,
+      });
+    } else if (this.amazonDataCenter) {
       this.metadataClient = new AwsMetadata({
         logger: this.logger,
       });
@@ -112,6 +117,20 @@ export default class Eureka extends EventEmitter {
       dataCenterInfo &&
       dataCenterInfo.name &&
       dataCenterInfo.name.toLowerCase() === 'amazon'
+    );
+  }
+
+  /*
+    Helper method to determine if this is an AWS datacenter for ECS Fargate.
+  */
+  get amazonFargateDataCenter() {
+    const { dataCenterInfo } = this.config.instance;
+    return (
+      dataCenterInfo &&
+      dataCenterInfo.name &&
+      dataCenterInfo.name.toLowerCase() === 'amazon' &&
+      dataCenterInfo.type &&
+      dataCenterInfo.type.toLowerCase() === 'fargate'
     );
   }
 
@@ -369,9 +388,9 @@ export default class Eureka extends EventEmitter {
     });
   }
 
-    /*
-    Retrieves all applications registered with the Eureka server
-   */
+  /*
+  Retrieves all applications registered with the Eureka server
+ */
   fetchDelta(callback = noop) {
     this.eurekaRequest({
       uri: 'delta',
@@ -597,29 +616,29 @@ export default class Eureka extends EventEmitter {
         });
       },
     ],
-    /*
-    Handle Final Output.
-     */
-    (error, response, body, requestOpts) => {
-      if (error) this.logger.error('Problem making eureka request', error);
+      /*
+      Handle Final Output.
+       */
+      (error, response, body, requestOpts) => {
+        if (error) this.logger.error('Problem making eureka request', error);
 
-      // Perform retry if request failed and we have attempts left
-      const responseInvalid = response
-        && response.statusCode
-        && String(response.statusCode)[0] === '5';
+        // Perform retry if request failed and we have attempts left
+        const responseInvalid = response
+          && response.statusCode
+          && String(response.statusCode)[0] === '5';
 
-      if ((error || responseInvalid) && retryAttempt < this.config.eureka.maxRetries) {
-        const nextRetryDelay = this.config.eureka.requestRetryDelay * (retryAttempt + 1);
-        this.logger.warn(`Eureka request failed to endpoint ${requestOpts.baseUrl}, ` +
-          `next server retry in ${nextRetryDelay}ms`);
+        if ((error || responseInvalid) && retryAttempt < this.config.eureka.maxRetries) {
+          const nextRetryDelay = this.config.eureka.requestRetryDelay * (retryAttempt + 1);
+          this.logger.warn(`Eureka request failed to endpoint ${requestOpts.baseUrl}, ` +
+            `next server retry in ${nextRetryDelay}ms`);
 
-        setTimeout(() => this.eurekaRequest(opts, callback, retryAttempt + 1),
-          nextRetryDelay);
-        return;
-      }
+          setTimeout(() => this.eurekaRequest(opts, callback, retryAttempt + 1),
+            nextRetryDelay);
+          return;
+        }
 
-      callback(error, response, body);
-    });
+        callback(error, response, body);
+      });
   }
 
 }

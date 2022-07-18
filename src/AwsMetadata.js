@@ -4,13 +4,14 @@ import Logger from './Logger';
 
 /*
   Utility class for pulling AWS metadata that Eureka requires when
-  registering as an Amazon instance (datacenter).
+  registering as an Amazon instance (datacenter) 
+  Only works for EC2 !!!.
 */
 export default class AwsMetadata {
 
   constructor(config = {}) {
     this.logger = config.logger || new Logger();
-    this.host = config.host || '169.254.169.254';
+    this.host = config.host || '169.254.169.254'; // default to EC2 metadata host
   }
 
   fetchMetadata(resultsCallback) {
