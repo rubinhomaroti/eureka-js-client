@@ -135,6 +135,7 @@ Notes:
   - If you want to register using the IP address as the hostname, set `eureka.preferIpAddress` to `true`. This may be used in combination with `eureka.useLocalMetadata` for selecting the private or public IP.
   - For status and healthcheck URLs, you may use the replacement key of `__HOST__` to use the host from the metadata.
   - Metadata fetching can be disabled by setting `config.eureka.fetchMetadata` to `false` if you want to provide your own metadata in AWS environments.
+  - If you want to use withing ECS Fargate service, you can set `instance.dataCenterInfo.type` to `fargate`. (Only supports v4 (1.4.0) until now)
 
 ### Looking up Eureka Servers using DNS
 If your have multiple availability zones and your DNS entries set up according to the Wiki article [Deploying Eureka Servers in EC2](https://github.com/Netflix/eureka/wiki/Deploying-Eureka-Servers-in-EC2#configuring-eips-using-dns), you'll want to set `config.eureka.useDns` to `true` and set `config.eureka.ec2Region` to the current region (usually this can be pulled into your application via an environment variable, or passed in directly at startup).
