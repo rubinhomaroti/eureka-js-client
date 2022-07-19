@@ -48,7 +48,7 @@ export default class AwsFargateMetadata {
     }
 
     lookupMetadataKey(key, metadata) {
-        if (this.metadata[key] === null || this.metadata[key] === undefined) {
+        if (metadata[key] === null || metadata[key] === undefined) {
             return null;
         }
 
@@ -68,7 +68,7 @@ export default class AwsFargateMetadata {
     lookupInstanceIdentity(metadata) {
         if (metadata.ContainerARN) {
             // ContainerARN.split(':')[4] (arn:aws:ecs:us-west-2:111122223333)
-            const arn = this.metadata.ContainerARN.split(':');
+            const arn = metadata.ContainerARN.split(':');
             if (arn.length === 5) {
                 return arn[4];
             }
