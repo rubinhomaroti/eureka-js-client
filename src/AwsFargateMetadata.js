@@ -84,7 +84,12 @@ export default class AwsFargateMetadata {
             return;
         }
 
-        callback(null, this.metadata[key] ?? null);
+        if (this.metadata[key] === null || this.metadata[key] === undefined) {
+            callback(null, null);
+            return;
+        }
+
+        callback(null, this.metadata[key]);
     }
 
     lookupNetworkMetadata(key, callback) {
@@ -102,7 +107,12 @@ export default class AwsFargateMetadata {
             callback(null, Array.isArray(property) ? property[0] : property);
         }
 
-        callback(null, this.metadata[key] ?? null);
+        if (this.metadata[key] === null || this.metadata[key] === undefined) {
+            callback(null, null);
+            return;
+        }
+
+        callback(null, this.metadata[key]);
     }
 
     lookupInstanceIdentity(callback) {
