@@ -100,11 +100,11 @@ export default class Eureka extends EventEmitter {
     instance-id in the metadata. Else, it's the hostName.
   */
   get instanceId() {
-    if (this.config.instance.instanceId) {
-      return this.config.instance.instanceId;
-    } else if (this.amazonDataCenter) {
+    if (this.amazonDataCenter) {
       return this.config.instance.dataCenterInfo.metadata['instance-id'];
-    }
+    } else if (this.config.instance.instanceId) {
+      return this.config.instance.instanceId;
+    }  
     return this.config.instance.hostName;
   }
 
