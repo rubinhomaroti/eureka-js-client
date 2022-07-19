@@ -553,8 +553,10 @@ export default class Eureka extends EventEmitter {
       const preferIpAddress = this.config.eureka.preferIpAddress;
       const metadataHostName = metadataResult[useLocal ? 'local-hostname' : 'public-hostname'];
       const metadataIpAddress = metadataResult[useLocal ? 'local-ipv4' : 'public-ipv4'];
+      const metadataInstanceId = metadataResult['instance-id'];
       this.config.instance.hostName = preferIpAddress ? metadataIpAddress : metadataHostName;
       this.config.instance.ipAddr = metadataIpAddress;
+      this.config.instance.instanceId = metadataInstanceId;
 
       if (this.config.instance.statusPageUrl) {
         const { statusPageUrl } = this.config.instance;
