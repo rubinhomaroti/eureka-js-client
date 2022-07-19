@@ -19,10 +19,10 @@ export default class AwsFargateMetadata {
             url: this.host,
         }, (error, response, body) => {
             if (error || response.statusCode !== 200) {
-                this.logger.error('Error requesting metadata', error);
+                console.error('Eureka Client - Error requesting metadata: ' + error);
                 resultsCallback(null);
             } else {
-                this.logger.info('Received metadata', body);
+                console.debug('Eureka - Received metadata: ' + JSON.stringify(body));
                 const metadata = JSON.parse(body);
                 const results = {
                     'ami-id': this.lookupMetadataKey('ImageID', metadata),
@@ -37,7 +37,7 @@ export default class AwsFargateMetadata {
                     'vpc-id': 'awsvpc',
                     'accountId': this.lookupInstanceIdentity(metadata)
                 }
-                this.logger.debug('Parsed Instance AWS Metadata', results);
+                console.debug('Eureka - Parsed Instance AWS Metadata: ' + JSON.stringify(results));
                 const filteredResults = Object.keys(results).reduce((filtered, prop) => {
                     if (results[prop]) filtered[prop] = results[prop];
                     return filtered;
