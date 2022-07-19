@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "Eureka Client based on eureka-js-client, with AWS ECS support",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "prepublish": "gulp",
     "test": "gulp test",
