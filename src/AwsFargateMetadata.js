@@ -1,5 +1,4 @@
 import request from 'request';
-import async from 'async';
 import Logger from './Logger';
 
 /*
