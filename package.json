@@ -1,7 +1,7 @@
 {
-  "name": "eureka-js-client",
-  "version": "4.5.0",
-  "description": "A JavaScript implementation the Netflix OSS service registry, Eureka.",
+  "name": "eureka-js-client-aws",
+  "version": "1.0.0",
+  "description": "Eureka Client based on eureka-js-client, with AWS ECS support",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "gulp",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jquatier/eureka-js-client.git"
+    "url": "https://github.com/rubinhomaroti/eureka-js-client-aws.git"
   },
   "keywords": [
     "eureka",
@@ -22,9 +22,9 @@
   "author": "JQ",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jquatier/eureka-js-client/issues"
+    "url": "https://github.com/rubinhomaroti/eureka-js-client-aws/issues"
   },
-  "homepage": "https://github.com/jquatier/eureka-js-client",
+  "homepage": "https://github.com/rubinhomaroti/eureka-js-client-aws",
   "dependencies": {
     "async": "^2.0.1",
     "js-yaml": "^3.3.1",
