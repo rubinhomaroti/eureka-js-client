@@ -69,7 +69,7 @@ export default class AwsFargateMetadata {
         if (metadata.ContainerARN) {
             // ContainerARN.split(':')[4] (arn:aws:ecs:us-west-2:111122223333)
             const arn = metadata.ContainerARN.split(':');
-            if (arn.length === 5) {
+            if (arn.length >= 5) {
                 return arn[4];
             }
         }
