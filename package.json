@@ -1,6 +1,6 @@
 {
   "name": "eureka-js-client-aws",
-  "version": "4.6.3",
+  "version": "4.6.4",
   "description": "Eureka Client based on eureka-js-client, with AWS ECS support",
   "main": "lib/index.js",
   "scripts": {
