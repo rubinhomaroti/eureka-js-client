@@ -15,8 +15,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 8
-      - run: npm prepublish
       - run: npm ci
+      - run: npm run prepublish
 
   publish-npm:
     needs: build
@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 8
           registry-url: https://registry.npmjs.org/
-      - run: npm prepublish
       - run: npm ci
+      - run: npm run prepublish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
